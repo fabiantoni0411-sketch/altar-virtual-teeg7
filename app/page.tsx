@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CandleCard from "@/components/CandleCard";
-import { supabaseServer } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase";
 import Link from "next/link";
 
 export const revalidate = 30; // atualiza o mural de velas a cada 30s
