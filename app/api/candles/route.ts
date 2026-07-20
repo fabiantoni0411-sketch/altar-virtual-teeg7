@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabaseAdmin } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase-server";
 import { getCandleById } from "@/lib/candles-data";
 import { validateName, validateRequestText, VALIDATION_MESSAGE } from "@/lib/content-filter";
 import { sendNewCandleEmail } from "@/lib/email";
@@ -102,54 +102,4 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ ok: true, id: candle.id });
 }
 
-async function logModeration(entry: {
-  nome?: string; cidade?: string; estado?: string; pedido?: string; acao: string; motivo?: string; ip: string;
-}) {
-  const supabase = supabaseAdmin();
-  await supabase.from("moderation_logs").insert({
-    nome: entry.nome,
-    cidade: entry.cidade,
-    estado: entry.estado,
-    pedido: entry.pedido,
-    acao: entry.acao,
-    motivo: entry.motivo,
-    ip_address: entry.ip,
-  });
-}
-
-async function notifyAdmins(candle: any) {
-  const supabase = supabaseAdmin();
-  const { data: settings } = await supabase.from("notification_settings").select("*").single();
-  if (!settings) return;
-
-  const dataHora = new Date(candle.created_at).toLocaleString("pt-BR");
-  const linkPainel = `${process.env.NEXT_PUBLIC_SITE_URL}/admin/dashboard`;
-  const trechoPedido = candle.pedido.slice(0, 200);
-
-  if (settings.email_ativo) {
-    const emails = [settings.email_principal, ...(settings.emails_adicionais ?? [])].filter(Boolean);
-    await sendNewCandleEmail(emails, {
-      nome: candle.nome,
-      cor: candle.cor,
-      orixa: candle.orixa,
-      cidade: candle.cidade,
-      estado: candle.estado,
-      dataHora,
-      trechoPedido,
-      linkPainel,
-    });
-  }
-
-  if (settings.whatsapp_ativo) {
-    await sendWhatsappNotification({
-      nome: candle.nome,
-      cor: candle.cor,
-      orixa: candle.orixa,
-      cidade: candle.cidade,
-      estado: candle.estado,
-      dataHora,
-      pedido: trechoPedido,
-      linkPainel,
-    });
-  }
-}
+async function logModeration(ent
