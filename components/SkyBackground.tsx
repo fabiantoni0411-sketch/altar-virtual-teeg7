@@ -1,7 +1,6 @@
-// Fundo do céu: estrelas e lanternas japonesas flutuando, atrás de todo o
-// conteúdo do site. Posições fixas, espaçadas, concentradas na faixa
-// superior da página (onde o degradê ainda está azulado) e evitando a
-// área central onde fica o logo.
+// Fundo do céu: estrelas e lanternas japonesas flutuando.
+// As lanternas ficam SÓ na seção inicial (hero) e rolam junto com ela —
+// não ficam fixas na tela. As estrelas continuam cobrindo toda a página.
 
 function seededRandom(seed: number) {
   let x = Math.sin(seed) * 10000;
@@ -15,7 +14,7 @@ const STARS = Array.from({ length: 70 }).map((_, i) => {
   return {
     top: r1 * 100,
     left: r2 * 100,
-    size: 1 + r3 * 1.6,
+    size: 2 + r3 * 2.4,
     delay: r3 * 4,
     dur: 2.5 + r2 * 2.5,
     gold: i % 9 === 0,
@@ -23,23 +22,25 @@ const STARS = Array.from({ length: 70 }).map((_, i) => {
 });
 
 const LANTERNS = [
-  { top: 3, left: 6, size: 11 },
-  { top: 10, left: 3, size: 9 },
-  { top: 18, left: 8, size: 13 },
-  { top: 26, left: 5, size: 10 },
-  { top: 33, left: 13, size: 9 },
-  { top: 6, left: 21, size: 10 },
-  { top: 23, left: 18, size: 8 },
-  { top: 3, left: 93, size: 11 },
-  { top: 11, left: 89, size: 9 },
-  { top: 19, left: 95, size: 13 },
-  { top: 27, left: 87, size: 10 },
-  { top: 33, left: 79, size: 9 },
-  { top: 6, left: 77, size: 10 },
-  { top: 23, left: 81, size: 8 },
+  { top: 4, left: 3, size: 8 },
+  { top: 11, left: 2, size: 7 },
+  { top: 19, left: 4, size: 9 },
+  { top: 27, left: 2, size: 7 },
+  { top: 35, left: 5, size: 8 },
+  { top: 8, left: 10, size: 6 },
+  { top: 22, left: 9, size: 7 },
+  { top: 31, left: 11, size: 6 },
+  { top: 4, left: 96, size: 8 },
+  { top: 11, left: 97, size: 7 },
+  { top: 19, left: 95, size: 9 },
+  { top: 27, left: 97, size: 7 },
+  { top: 35, left: 94, size: 8 },
+  { top: 8, left: 89, size: 6 },
+  { top: 22, left: 90, size: 7 },
+  { top: 31, left: 88, size: 6 },
 ].map((l, i) => ({ ...l, delay: (i % 5) * 0.8, dur: 6 + (i % 4) * 0.7 }));
 
-export default function SkyBackground() {
+export function StarsBackground() {
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
       {STARS.map((s, i) => (
@@ -51,15 +52,21 @@ export default function SkyBackground() {
             left: `${s.left}%`,
             width: s.size,
             height: s.size,
-            background: s.gold ? "#F0DCA6" : "#FFFFFF",
+            background: s.gold ? "#F6E7B0" : "#FFFFFF",
             boxShadow: s.gold
-              ? "0 0 4px rgba(240,220,166,0.8)"
-              : "0 0 3px rgba(255,255,255,0.7)",
+              ? "0 0 8px 2px rgba(240,220,166,0.95)"
+              : "0 0 7px 2px rgba(255,255,255,0.9)",
             animation: `twinkle ${s.dur}s ease-in-out ${s.delay}s infinite`,
           }}
         />
       ))}
+    </div>
+  );
+}
 
+export function HeroLanterns() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
       {LANTERNS.map((l, i) => {
         const h = l.size * 1.25;
         return (
@@ -92,6 +99,3 @@ export default function SkyBackground() {
           </div>
         );
       })}
-    </div>
-  );
-}
