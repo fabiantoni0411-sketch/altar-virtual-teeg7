@@ -1,6 +1,12 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Cria o cliente Resend somente quando necessário (lazy), evitando erro
+// de build quando a variável RESEND_API_KEY ainda não está configurada.
+function getResendClient() {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) return null;
+  return new Resend(apiKey);
+}
 
 export interface NewCandleNotificationData {
   nome: string;
@@ -18,6 +24,12 @@ export async function sendNewCandleEmail(
   data: NewCandleNotificationData
 ) {
   if (!toEmails.length) return { skipped: true };
+
+  const resend = getResendClient();
+  if (!resend) {
+    console.warn("[email] RESEND_API_KEY não configurada — e-mail não enviado");
+    return { skipped: true };
+  }
 
   const subject = "🔔 Nova vela aguardando aprovação — Altar Virtual TEEG7";
 
@@ -53,5 +65,9 @@ export async function sendNewCandleEmail(
 }
 
 function escapeHtml(str: string) {
-  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 }
