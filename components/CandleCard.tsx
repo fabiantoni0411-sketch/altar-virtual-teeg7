@@ -27,13 +27,33 @@ export default function CandleCard({ nome, cidade, estado, cor, createdAt }: Can
 
   return (
     <div className="rounded-2xl bg-altar-royal/40 border border-altar-gold/20 p-4 flex flex-col items-center gap-3 shadow-glow backdrop-blur-sm">
-      <div className="relative h-24 flex items-end">
-        <motion.div
-          className="absolute -top-6 left-1/2 -translate-x-1/2 w-3 h-6 rounded-full bg-gradient-to-t from-orange-500 via-yellow-300 to-yellow-100 shadow-candle animate-flicker"
-        />
+      <div className="relative h-28 flex flex-col items-center justify-end">
+        {/* Chama delicada, tremulando */}
         <div
-          className="w-6 rounded-t-md rounded-b-sm border border-black/10"
-          style={{ height: `${Math.max(percent, 6)}%`, background: bg, minHeight: 8 }}
+          className="relative z-10"
+          style={{
+            width: 12,
+            height: 20,
+            marginBottom: -2,
+            borderRadius: "50% 50% 50% 50% / 65% 65% 35% 35%",
+            background: "radial-gradient(ellipse at 50% 30%, #FFF9E0 0%, #FFD966 35%, #FF9D2E 70%, #E8631A 100%)",
+            boxShadow: "0 0 10px 3px rgba(255,180,60,0.6)",
+            animation: "flameFlicker 1.6s ease-in-out infinite",
+            transformOrigin: "50% 100%",
+          }}
+        />
+        {/* Pavio */}
+        <div style={{ width: 2, height: 4, background: "#2A1F14" }} />
+        {/* Corpo da vela (a altura reflete o % restante) */}
+        <div
+          className="rounded-t-sm rounded-b-md border border-black/10"
+          style={{
+            width: 22,
+            height: `${Math.max(percent, 8)}%`,
+            minHeight: 10,
+            background: bg,
+            boxShadow: "inset -2px 0 4px rgba(0,0,0,0.12), inset 2px 0 3px rgba(255,255,255,0.25)",
+          }}
         />
       </div>
 
@@ -56,4 +76,3 @@ export default function CandleCard({ nome, cidade, estado, cor, createdAt }: Can
       </div>
     </div>
   );
-}
