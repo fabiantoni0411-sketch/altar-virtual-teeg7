@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import SkyBackground from "@/components/SkyBackground";
 
 export const metadata: Metadata = {
   title: "Altar Virtual — TEEG7",
@@ -10,8 +11,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR">
-      <body className="bg-altar-navy text-altar-white font-body min-h-screen">
-        {children}
+      <body className="text-altar-white font-body min-h-screen">
+        <SkyBackground />
+        <div className="relative z-10">{children}</div>
       </body>
     </html>
   );
