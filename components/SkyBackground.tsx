@@ -99,3 +99,4 @@ export function HeroLanterns() {
           </div>
         );
       })}
+    </div>
