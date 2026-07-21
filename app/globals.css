@@ -9,4 +9,17 @@ body {
   background-image:
     radial-gradient(ellipse 60% 34% at 50% 10%, rgba(255,255,255,0.25) 0%, rgba(220,231,251,0.08) 40%, transparent 70%),
     linear-gradient(180deg, #1E3A8A 0%, #2C4C9E 35%, #3B5FCB 70%, #4A6FD4 100%);
-  background-repeat: no-re
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes lanternFloat {
+  0%, 100% { transform: translateY(0px) rotate(-1deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
