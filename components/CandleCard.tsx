@@ -76,3 +76,4 @@ export default function CandleCard({ nome, cidade, estado, cor, createdAt }: Can
       </div>
     </div>
   );
+}
