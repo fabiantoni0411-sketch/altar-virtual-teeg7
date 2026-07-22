@@ -1,4 +1,4 @@
-import Header from "@/components/Header";
+       import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CandleCard from "@/components/CandleCard";
 import { supabaseServer } from "@/lib/supabase-server";
@@ -81,3 +81,10 @@ export default async function HomePage() {
           <p className="text-center text-altar-mist/60 text-sm">
             Nenhuma vela acesa no momento. Seja o primeiro a levar luz ao altar.
           </p>
+        )}
+      </section>
+
+      <Footer />
+    </main>
+  );
+}   
