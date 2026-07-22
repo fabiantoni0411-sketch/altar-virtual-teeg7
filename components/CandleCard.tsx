@@ -9,9 +9,10 @@ interface CandleCardProps {
   estado: string;
   cor: string;
   createdAt: string;
+  pedido?: string;
 }
 
-export default function CandleCard({ nome, cidade, estado, cor, createdAt }: CandleCardProps) {
+export default function CandleCard({ nome, cidade, estado, cor, createdAt, pedido }: CandleCardProps) {
   const def = getCandleById(cor);
   const created = new Date(createdAt);
   const percent = candlePercentRemaining(created);
@@ -62,6 +63,12 @@ export default function CandleCard({ nome, cidade, estado, cor, createdAt }: Can
         <p className="text-xs text-altar-mist/70">{cidade}/{estado}</p>
         <p className="text-xs text-altar-gold mt-1">{def?.label ?? cor} · {def?.orixa}</p>
       </div>
+
+      {pedido && (
+        <p className="text-xs text-altar-mist/90 text-center italic leading-relaxed border-t border-altar-gold/15 pt-2 w-full">
+          "{pedido}"
+        </p>
+      )}
 
       <div className="w-full">
         <div className="h-1.5 w-full rounded-full bg-altar-navy/60 overflow-hidden">
