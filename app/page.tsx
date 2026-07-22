@@ -9,13 +9,12 @@ export const revalidate = 30; // atualiza o mural de velas a cada 30s
 export default async function HomePage() {
   const supabase = await supabaseServer();
 
-  const { data: content } = await supabase.from("site_content").select("*").single();
   const { data: candles } = await supabase
-    .from("candles")
-    .select("nome, cidade, estado, cor, created_at")
-    .eq("status", "aprovada")
-    .order("created_at", { ascending: false })
-    .limit(24);
+  .from("candles")
+  .select("nome, cidade, estado, cor, created_at, pedido")
+  .eq("status", "aprovada")
+  .order("created_at", { ascending: false })
+  .limit(24);
 
   return (
     <main>
@@ -67,13 +66,15 @@ export default async function HomePage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {candles.map((c, i) => (
               <CandleCard
-                key={i}
-                nome={c.nome}
-                cidade={c.cidade}
-                estado={c.estado}
-                cor={c.cor}
-                createdAt={c.created_at}
-              />
+                <CandleCard
+  key={i}
+  nome={c.nome}
+  cidade={c.cidade}
+  estado={c.estado}
+  cor={c.cor}
+  createdAt={c.created_at}
+  pedido={c.pedido}
+/>
             ))}
           </div>
         ) : (
