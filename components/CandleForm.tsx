@@ -114,7 +114,7 @@ export default function CandleForm() {
           <select value={corId} onChange={(e) => setCorId(e.target.value)} className={inputClass}>
             <option value="">Escolha a cor</option>
             {CANDLES.map((c) => (
-              <option key={c.id} value={c.id}>{c.label} — {c.orixa}</option>
+              <option key={c.id} value={c.id}>{c.label}</option>
             ))}
           </select>
         </Field>
