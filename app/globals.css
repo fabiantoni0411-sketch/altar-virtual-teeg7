@@ -23,3 +23,9 @@ body {
   0%, 100% { transform: translateY(0px) rotate(-1deg); }
   50% { transform: translateY(-10px) rotate(1deg); }
 }
+@keyframes flameFlicker {
+  0%, 100% { transform: scaleY(1) scaleX(1) rotate(0deg); opacity: 1; }
+  25% { transform: scaleY(1.08) scaleX(0.95) rotate(-2deg); opacity: 0.95; }
+  50% { transform: scaleY(0.95) scaleX(1.05) rotate(1deg); opacity: 1; }
+  75% { transform: scaleY(1.05) scaleX(0.97) rotate(-1deg); opacity: 0.9; }
+}
