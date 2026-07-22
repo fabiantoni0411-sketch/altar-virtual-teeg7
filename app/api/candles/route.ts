@@ -1,4 +1,4 @@
-  import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import { getCandleById } from "@/lib/candles-data";
 import { validateName, validateRequestText, VALIDATION_MESSAGE } from "@/lib/content-filter";
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
       cidade,
       estado,
       email: email || null,
-      cor: candleDef.label,
+      cor: corId,
       orixa: candleDef.orixa,
       tipo_vela: candleDef.tipo,
       pedido,
