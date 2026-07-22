@@ -1,3 +1,4 @@
+import { HeroLanterns } from "@/components/SkyBackground";
 export default function Header() {
   return (
     <header className="relative pt-14 pb-10 px-6 text-center overflow-hidden">
