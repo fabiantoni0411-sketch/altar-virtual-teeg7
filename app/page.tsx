@@ -1,4 +1,4 @@
-      import Header from "@/components/Header";
+import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CandleCard from "@/components/CandleCard";
 import { supabaseServer } from "@/lib/supabase-server";
@@ -9,12 +9,13 @@ export const revalidate = 30; // atualiza o mural de velas a cada 30s
 export default async function HomePage() {
   const supabase = await supabaseServer();
 
+  const { data: content } = await supabase.from("site_content").select("*").single();
   const { data: candles } = await supabase
-  .from("candles")
-  .select("nome, cidade, estado, cor, created_at, pedido")
-  .eq("status", "aprovada")
-  .order("created_at", { ascending: false })
-  .limit(24);
+    .from("candles")
+    .select("nome, cidade, estado, cor, created_at, pedido")
+    .eq("status", "aprovada")
+    .order("created_at", { ascending: false })
+    .limit(24);
 
   return (
     <main>
@@ -66,25 +67,17 @@ export default async function HomePage() {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {candles.map((c, i) => (
               <CandleCard
-                <CandleCard
-  key={i}
-  nome={c.nome}
-  cidade={c.cidade}
-  estado={c.estado}
-  cor={c.cor}
-  createdAt={c.created_at}
-  pedido={c.pedido}
-/>
+                key={i}
+                nome={c.nome}
+                cidade={c.cidade}
+                estado={c.estado}
+                cor={c.cor}
+                createdAt={c.created_at}
+                pedido={c.pedido}
+              />
             ))}
           </div>
         ) : (
           <p className="text-center text-altar-mist/60 text-sm">
             Nenhuma vela acesa no momento. Seja o primeiro a levar luz ao altar.
           </p>
-        )}
-      </section>
-
-      <Footer />
-    </main>
-  );
-}          
