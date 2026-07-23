@@ -189,7 +189,7 @@ export const CANDLES: CandleDefinition[] = [
     hexSecondary: "#1A1A1A",
     significados: ["quebra de demandas", "destravamento de caminhos", "proteção contra magias negativas"],
     indicacao: "Vencer bloqueios espirituais e abrir caminhos.",
-    imagens: ["/Ogum.jpeg", "/1784794619956.jpeg"],
+    imagens: ["/Ogum.jpeg", "/1784794619956.png"],
   },
   {
     id: "branca-preta",
