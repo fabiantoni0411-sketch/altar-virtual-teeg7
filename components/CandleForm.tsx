@@ -128,7 +128,7 @@ export default function CandleForm() {
                     key={i}
                     src={img}
                     alt={corSelecionada.orixa}
-                    className="w-20 h-20 object-cover rounded-lg border border-altar-gold/30"
+                    className="w-28 h-28 object-contain rounded-lg border border-altar-gold/30 bg-altar-navy/40"
                   />
                 ))}
               </div>
