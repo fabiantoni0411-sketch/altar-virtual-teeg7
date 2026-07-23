@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { supabaseBrowser } from "@/lib/supabase";
 
-type Tab = "pendentes" | "conteudo" | "palavras" | "bloqueados" | "moderacao" | "config" | "relatorios";
+type Tab = "pendentes" | "acesas" | "conteudo" | "palavras" | "bloqueados" | "moderacao" | "config" | "relatorios";
 
 export default function AdminDashboard() {
   const [tab, setTab] = useState<Tab>("pendentes");
@@ -19,6 +19,7 @@ export default function AdminDashboard() {
         {(
           [
             ["pendentes", "Velas pendentes"],
+            ["acesas", "Velas acesas"],
             ["conteudo", "Conteúdo do site"],
             ["palavras", "Palavras bloqueadas"],
             ["bloqueados", "Usuários bloqueados"],
@@ -41,6 +42,7 @@ export default function AdminDashboard() {
 
       <main className="p-6">
         {tab === "pendentes" && <PendingCandles />}
+        {tab === "acesas" && <ActiveCandles />}
         {tab === "conteudo" && <SiteContentEditor />}
         {tab === "palavras" && <BlockedWordsManager />}
         {tab === "bloqueados" && <BlockedUsersManager />}
@@ -121,6 +123,62 @@ function PendingCandles() {
               <button onClick={() => updateStatus(c.id, "aprovada")} className="px-3 py-1.5 rounded-lg bg-green-600/80 text-sm">Aprovar</button>
               <button onClick={() => updateStatus(c.id, "rejeitada")} className="px-3 py-1.5 rounded-lg bg-yellow-700/80 text-sm">Rejeitar</button>
               <button onClick={() => remove(c.id)} className="px-3 py-1.5 rounded-lg bg-red-800/80 text-sm">Excluir</button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ---------------- Velas acesas (aprovadas) ---------------- */
+function ActiveCandles() {
+  const [candles, setCandles] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const supabase = supabaseBrowser();
+
+  async function load() {
+    setLoading(true);
+    const { data } = await supabase
+      .from("candles")
+      .select("*")
+      .eq("status", "aprovada")
+      .order("created_at", { ascending: false });
+    setCandles(data ?? []);
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    load();
+  }, []);
+
+  async function remove(id: string) {
+    if (!confirm("Tem certeza que deseja apagar esta vela acesa? Essa ação não pode ser desfeita.")) return;
+    await supabase.from("candles").delete().eq("id", id);
+    await supabase.from("moderation_logs").insert({ acao: "excluido_manualmente" });
+    load();
+  }
+
+  if (loading) return <p className="text-altar-mist">Carregando...</p>;
+  if (candles.length === 0) return <p className="text-altar-mist">Nenhuma vela acesa no momento.</p>;
+
+  return (
+    <div className="grid gap-4 max-w-3xl">
+      {candles.map((c) => (
+        <div key={c.id} className="rounded-xl bg-altar-royal/30 border border-altar-gold/20 p-4">
+          <div className="flex justify-between items-start gap-4 flex-wrap">
+            <div>
+              <p className="font-semibold">{c.nome} — {c.cidade}/{c.estado}</p>
+              <p className="text-sm text-altar-gold">{c.cor} · {c.orixa}</p>
+              <p className="text-sm text-altar-mist/80 mt-1 max-w-md">{c.pedido}</p>
+              <p className="text-xs text-altar-mist/50 mt-1">
+                Acesa em {new Date(c.created_at).toLocaleString("pt-BR")}
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <button onClick={() => remove(c.id)} className="px-3 py-1.5 rounded-lg bg-red-800/80 text-sm">
+                Excluir vela
+              </button>
             </div>
           </div>
         </div>
