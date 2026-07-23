@@ -5,7 +5,7 @@ export default function Header() {
         <div className="relative mx-auto w-28 h-28">
           <div className="absolute -inset-3 rounded-full bg-gold-shine/30 blur-2xl animate-float" />
           <img
-            src="/1000258029.png"
+            src="/Galleryit_20260722_1784772136.png"
             alt="TEEG7"
             className="relative w-28 h-28 drop-shadow-[0_4px_10px_rgba(11,23,71,0.35)]"
           />
