@@ -1,9 +1,6 @@
-import { HeroLanterns } from "@/components/SkyBackground";
-
 export default function Header() {
   return (
     <header className="relative pt-14 pb-10 px-6 text-center overflow-hidden">
-      <HeroLanterns />
       <div className="relative z-10 space-y-3">
         <div className="relative mx-auto w-28 h-28">
           <div className="absolute -inset-3 rounded-full bg-gold-shine/30 blur-2xl animate-float" />
