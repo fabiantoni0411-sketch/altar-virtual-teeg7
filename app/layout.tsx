@@ -5,7 +5,7 @@ import { StarsBackground } from "@/components/SkyBackground";
 export const metadata: Metadata = {
   title: "Altar Virtual — TEEG7",
   description:
-    "Templo Espírita Estrela Guia e Caboclo Sete Pedras do Mar — acenda sua vela virtual e deixe seu pedido de oração.",
+    "Templo Espírita Estrela Guia e Caboclo 7 Pedras do Mar — acenda sua vela virtual e deixe seu pedido de oração.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
