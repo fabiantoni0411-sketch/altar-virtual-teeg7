@@ -14,7 +14,7 @@ export default function Header() {
           ALTAR VIRTUAL
         </h1>
         <p className="font-body text-sm md:text-base text-altar-mist/80">
-          Templo Espírita Estrela Guia e Caboclo Sete Pedras do Mar
+          Templo Espírita Estrela Guia e Caboclo 7 Pedras do Mar
         </p>
       </div>
     </header>
