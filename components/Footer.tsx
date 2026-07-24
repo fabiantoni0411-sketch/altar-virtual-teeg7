@@ -46,7 +46,7 @@ export default function Footer() {
     <footer className="relative bg-altar-navy border-t border-altar-gold/20 text-altar-mist py-10 px-6 mt-16">
       <div className="max-w-3xl mx-auto text-center space-y-3 font-body text-sm">
         <p className="font-display text-lg text-altar-gold">
-          Templo Espírita Estrela Guia e Caboclo 7 Pedras do Mar
+          Templo Espírita Estrela Guia e Caboclo Sete Pedras do Mar
         </p>
         <p>📍 Rua Júlio Nunes do Rego, 246 — Jardim Roberto — Osasco/SP</p>
         <p>🗓️ Fundado em 31 de agosto de 1996</p>
