@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { supabaseBrowser } from "@/lib/supabase";
 
 // Clique/toque 3x rápido no texto do rodapé abre o login oculto do admin.
-const TRIPLE_CLICK_WINDOW_MS = 900;
+const TRIPLE_CLICK_WINDOW_MS = 1800;
 
 export default function Footer() {
   const clickTimestamps = useRef<number[]>([]);
