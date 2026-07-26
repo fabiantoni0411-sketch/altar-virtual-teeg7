@@ -2,7 +2,8 @@
 
 import { useState, useMemo } from "react";
 import Image from "next/image";
-import { cartas, temas, montarLeitura, CartaCigana, Tema } from "@/lib/baralhoCiganoData";
+import Link from "next/link";
+import { cartas, temas, montarLeitura, CartaCigana, Tema, LeituraResultado } from "@/lib/baralhoCiganoData";
 
 // Embaralha um array sem alterar o original
 function embaralhar<T>(arr: T[]): T[] {
@@ -20,7 +21,7 @@ export default function BaralhoCigano() {
   const [temasEscolhidos, setTemasEscolhidos] = useState<Tema[]>([]);
   const [resumoGeral, setResumoGeral] = useState(false);
   const [revelado, setRevelado] = useState(false);
-  const [leitura, setLeitura] = useState<string>("");
+  const [leitura, setLeitura] = useState<LeituraResultado | null>(null);
 
   const cartasEscolhidas = useMemo(
     () => escolhidas.map((id) => cartas.find((c) => c.id === id)!) as CartaCigana[],
@@ -36,7 +37,7 @@ export default function BaralhoCigano() {
     setOrdem(embaralhar(cartas.map((c) => c.id)));
     setEscolhidas([]);
     setRevelado(false);
-    setLeitura("");
+    setLeitura(null);
   }
 
   function alternarTema(tema: Tema) {
@@ -61,6 +62,7 @@ export default function BaralhoCigano() {
 
   return (
     <section className="baralho-cigano">
+      <Link href="/" className="bc-voltar">← Voltar para o Altar Virtual</Link>
       <div className="bc-logo">
         <Image src="/logo-teeg7.png" alt="Templo Espírita Estrela Guia" width={150} height={119} />
       </div>
@@ -144,18 +146,35 @@ export default function BaralhoCigano() {
         Revelar Mensagem
       </button>
 
-      {revelado && (
+      {revelado && leitura && (
         <div className="bc-leitura">
           <h2>Sua Mensagem</h2>
           <span className="bc-tema-tag">
             {resumoGeral ? "Leitura geral" : temasEscolhidos.length ? `Tema: ${temasEscolhidos.join(", ")}` : ""}
           </span>
-          <p>{leitura}</p>
+          <p>{leitura.introducao}</p>
+
+          {leitura.textoResumoGeral && <p>{leitura.textoResumoGeral}</p>}
+
+          {leitura.blocosPorTema.map((bloco) => (
+            <p key={bloco.tema} className="bc-bloco-tema">
+              <strong>{bloco.tema}:</strong> {bloco.texto}
+            </p>
+          ))}
+
+          <p className="bc-aviso">
+            Observação importante: as Mensagens do Baralho Cigano têm caráter exclusivamente
+            inspiracional e reflexivo. Não constituem consulta espiritual, atendimento religioso,
+            prática oracular ou previsão de acontecimentos. As interpretações apresentadas são
+            simbólicas e destinadas ao autoconhecimento e à reflexão, não substituindo orientações
+            espirituais, psicológicas, médicas, jurídicas ou de qualquer outra natureza profissional.
+          </p>
         </div>
       )}
 
-      <div className="bc-rodape">Baralho Cigano · Templo Espírita Estrela Guia e Caboclo 7 Pedras do Mar</div>
-      <div className="bc-rodape" style={{ marginTop: 8, opacity: 0.5 }}>Desenvolvido por Fabi Antonio</div>
+      <div className="bc-rodape">Baralho Cigano · Templo Estrela Guia e Caboclo Sete Pedras do Mar</div>
+      <br />
+      <div className="bc-rodape" style={{ opacity: 0.5 }}>Desenvolvido por Fabi Antonio</div>
     </section>
   );
 }
