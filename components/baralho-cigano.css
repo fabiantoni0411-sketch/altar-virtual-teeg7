@@ -17,6 +17,12 @@
   border-radius: 12px;
 }
 
+.bc-voltar{
+  display:inline-block; margin:0 0 18px 4px; font-size:13px; color:var(--gold-soft);
+  text-decoration:none; letter-spacing:.03em; transition:color .2s;
+}
+.bc-voltar:hover{ color:var(--gold); }
+
 .bc-logo{ display:flex; justify-content:center; margin-bottom:14px; }
 .bc-logo img{ filter: drop-shadow(0 0 10px rgba(232,193,95,.35)); }
 
@@ -87,5 +93,11 @@
 .bc-leitura h2{ font-family:'Cinzel', serif; font-size:14px; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); text-align:center; margin:0 0 14px; }
 .bc-tema-tag{ display:block; text-align:center; font-size:12px; color:var(--gold-soft); margin-bottom:14px; letter-spacing:.05em; }
 .bc-leitura p{ font-size:17px; line-height:1.7; color:#f6ead0; font-style:italic; }
+.bc-bloco-tema{ text-align:left; margin-top:14px; }
+.bc-bloco-tema strong{ color:var(--gold); font-style:normal; font-family:'Cinzel', serif; font-size:14px; letter-spacing:.03em; }
+.bc-aviso{
+  margin-top:24px; padding-top:18px; border-top:1px solid rgba(232,193,95,.25);
+  font-size:12px; line-height:1.6; font-style:normal; color:#d9c9a8; opacity:.75;
+}
 
 .bc-rodape{ text-align:center; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--gold-soft); margin-top:44px; opacity:.7; }
