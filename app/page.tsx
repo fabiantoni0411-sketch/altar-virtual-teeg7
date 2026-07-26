@@ -1,4 +1,4 @@
-       import Header from "@/components/Header";
+import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CandleCard from "@/components/CandleCard";
 import { supabaseServer } from "@/lib/supabase-server";
@@ -33,6 +33,16 @@ export default async function HomePage() {
         >
           🕯️ Acender uma vela
         </Link>
+
+        <div>
+          <Link
+            href="/baralho-cigano"
+            className="inline-block rounded-xl text-altar-navy font-semibold px-8 py-3 shadow-glow"
+            style={{ background: "linear-gradient(90deg, #a8347a, #d9ae4a)" }}
+          >
+            ✦ Mensagem do Baralho Cigano
+          </Link>
+        </div>
       </section>
 
       <section className="max-w-2xl mx-auto px-6 mt-12">
@@ -87,4 +97,4 @@ export default async function HomePage() {
       <Footer />
     </main>
   );
-}   
+}
