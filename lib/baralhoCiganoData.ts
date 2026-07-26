@@ -60,17 +60,27 @@ export const fechamentoPorTema: Record<Tema, string> = {
 };
 
 // Monta o texto final da leitura a partir das 3 cartas sorteadas e dos temas escolhidos
-export function montarLeitura(escolhidas: CartaCigana[], temasEscolhidos: Tema[], resumoGeral: boolean): string {
+export interface LeituraResultado {
+  introducao: string;
+  blocosPorTema: { tema: Tema; texto: string }[];
+  textoResumoGeral?: string;
+}
+
+export function montarLeitura(escolhidas: CartaCigana[], temasEscolhidos: Tema[], resumoGeral: boolean): LeituraResultado {
   const [a, b, c] = escolhidas;
-  let texto = `Abrindo com ${a.nome}, ${a.significado}. `;
-  texto += `Em seguida, ${b.nome} entra na leitura e ${b.significado}. `;
-  texto += `E a tiragem se fecha com ${c.nome}, que ${c.significado}. `;
-  texto += `Lidas em sequência, essas três cartas mostram um fio condutor: o que vem de ${a.nome.toLowerCase()} encontra eco em ${b.nome.toLowerCase()} e ganha um desfecho através de ${c.nome.toLowerCase()}, formando um recado só, não três avisos soltos. `;
+  let introducao = `Abrindo com ${a.nome}, ${a.significado}. `;
+  introducao += `Em seguida, ${b.nome} entra na leitura e ${b.significado}. `;
+  introducao += `E a tiragem se fecha com ${c.nome}, que ${c.significado}. `;
+  introducao += `Lidas em sequência, essas três cartas mostram um fio condutor: o que vem de ${a.nome.toLowerCase()} encontra eco em ${b.nome.toLowerCase()} e ganha um desfecho através de ${c.nome.toLowerCase()}, formando um recado só, não três avisos soltos.`;
 
   if (resumoGeral) {
-    texto += "Olhando de forma geral para sua vida agora, esse é um momento de prestar atenção aos detalhes antes de tomar decisões maiores, e de confiar no tempo certo de cada coisa.";
-  } else if (temasEscolhidos.length) {
-    texto += temasEscolhidos.map((t) => fechamentoPorTema[t]).join(" ");
+    return {
+      introducao,
+      blocosPorTema: [],
+      textoResumoGeral: "Olhando de forma geral para sua vida agora, esse é um momento de prestar atenção aos detalhes antes de tomar decisões maiores, e de confiar no tempo certo de cada coisa.",
+    };
   }
-  return texto;
+
+  const blocosPorTema = temasEscolhidos.map((tema) => ({ tema, texto: fechamentoPorTema[tema] }));
+  return { introducao, blocosPorTema };
 }
