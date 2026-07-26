@@ -154,7 +154,7 @@ export default function BaralhoCigano() {
         </div>
       )}
 
-      <div className="bc-rodape">Baralho Cigano · Templo Estrela Guia e Caboclo Sete Pedras do Mar</div>
+      <div className="bc-rodape">Baralho Cigano · Templo Espírita Estrela Guia e Caboclo 7 Pedras do Mar</div>
       <div className="bc-rodape" style={{ marginTop: 8, opacity: 0.5 }}>Desenvolvido por Fabi Antonio</div>
     </section>
   );
