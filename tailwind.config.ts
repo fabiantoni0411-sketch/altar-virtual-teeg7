@@ -1,16 +1,16 @@
 import type { Config } from "tailwindcss";
 
 // Sistema de tokens do Altar Virtual TEEG7
-// Azul royal em degradê + branco + dourado suave, clima de luz/névoa espiritual
+// Roxo royal em degradê + branco + dourado suave, clima de luz/névoa espiritual
 const config: Config = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
         altar: {
-          navy: "#0B1447",     // azul royal profundo (fundo)
-          royal: "#1E3A8A",    // azul royal principal
-          royalLight: "#3B5FCB", // azul royal claro (degradê)
+          navy: "#170B36",     // roxo profundo quase preto (fundo)
+          royal: "#4B2E8F",    // roxo royal principal
+          royalLight: "#7B5FE0", // roxo royal claro (degradê)
           gold: "#D4AF6A",     // dourado suave (detalhes)
           goldLight: "#F0DCA6",// dourado claro (brilho)
           mist: "#E8ECFB",     // névoa/branco azulado
@@ -23,7 +23,7 @@ const config: Config = {
       },
       backgroundImage: {
         "altar-gradient":
-          "radial-gradient(ellipse at top, #1E3A8A 0%, #0B1447 60%, #05081F 100%)",
+          "radial-gradient(ellipse at top, #4B2E8F 0%, #170B36 60%, #0A051C 100%)",
         "gold-shine":
           "linear-gradient(135deg, #F0DCA6 0%, #D4AF6A 50%, #B88A3F 100%)",
       },
