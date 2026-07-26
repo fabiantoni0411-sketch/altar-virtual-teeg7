@@ -1,0 +1,34 @@
+import Link from "next/link";
+
+export default function Header() {
+  return (
+    <header className="relative pt-14 pb-10 px-6 text-center overflow-hidden">
+      <div className="relative z-10 space-y-3">
+        <div className="relative mx-auto w-36 h-36">
+          <div className="absolute -inset-3 rounded-full bg-gold-shine/30 blur-2xl animate-float" />
+          <img
+            src="/Galleryit_20260722_1784772136.png"
+            alt="TEEG7"
+            className="relative w-36 h-36 drop-shadow-[0_4px_10px_rgba(11,23,71,0.35)]"
+          />
+        </div>
+        <h1 className="font-display text-4xl md:text-5xl text-altar-white tracking-wide">
+          ALTAR VIRTUAL
+        </h1>
+        <p className="font-body text-sm md:text-base text-altar-mist/80">
+          Templo Espírita Estrela Guia e Caboclo 7 Pedras do Mar
+        </p>
+
+        <div className="pt-2">
+          <Link
+            href="/baralho-cigano"
+            className="inline-block rounded-full px-6 py-2 text-sm font-display tracking-wide text-[#241030] shadow-md transition-transform hover:-translate-y-0.5"
+            style={{ background: "linear-gradient(90deg, #a8347a, #d9ae4a)" }}
+          >
+            ✦ Mensagem do Baralho Cigano
+          </Link>
+        </div>
+      </div>
+    </header>
+  );
+}
