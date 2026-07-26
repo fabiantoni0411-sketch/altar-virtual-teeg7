@@ -97,3 +97,34 @@ export default function Footer() {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full rounded-lg bg-altar-navy/60 border border-altar-gold/30 px-3 py-2 text-altar-white placeholder:text-altar-mist/50 focus:outline-none focus:ring-2 focus:ring-altar-gold"
             />
+            <input
+              type="password"
+              required
+              placeholder="Senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              className="w-full rounded-lg bg-altar-navy/60 border border-altar-gold/30 px-3 py-2 text-altar-white placeholder:text-altar-mist/50 focus:outline-none focus:ring-2 focus:ring-altar-gold"
+            />
+            {erro && <p className="text-red-300 text-sm text-center">{erro}</p>}
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setShowLogin(false)}
+                className="flex-1 rounded-lg border border-altar-gold/40 py-2 text-altar-mist"
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="flex-1 rounded-lg bg-gold-shine py-2 font-semibold text-altar-navy disabled:opacity-60"
+              >
+                {loading ? "Entrando..." : "Entrar"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+    </footer>
+  );
+}
