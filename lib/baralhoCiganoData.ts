@@ -50,15 +50,54 @@ export const cartas: CartaCigana[] = [
 export const temas = ["Amor", "Espiritualidade", "Família", "Saúde", "Justiça", "Área Profissional", "Financeiro"] as const;
 export type Tema = typeof temas[number];
 
-export const fechamentoPorTema: Record<Tema, string> = {
-  "Amor": "No campo do amor, esse recado pede que você olhe com sinceridade para o que sente e para o que recebe de volta — sem se enganar, mas também sem fechar o coração antes da hora.",
-  "Espiritualidade": "No campo espiritual, essa mensagem é um convite para fortalecer sua fé, manter a proteção em dia e escutar com mais atenção os sinais que já vêm chegando.",
-  "Família": "No campo da família, o recado fala de laços que precisam de cuidado, conversas que estão pendentes e da importância de manter a casa em harmonia.",
-  "Saúde": "No campo da saúde, essa mensagem reforça a importância de cuidar do corpo com a mesma atenção que se dedica às questões externas — descansar também é parte do caminho.",
-  "Justiça": "No campo da justiça, a leitura indica que a verdade tende a se impor, mas pede paciência com os prazos e cautela redobrada com documentos e palavras.",
-  "Área Profissional": "No campo profissional, o recado mostra que esforço e paciência vão se conectar em breve com uma virada — não é hora de desistir, mas de ajustar a rota.",
-  "Financeiro": "No campo financeiro, a leitura pede organização e cautela antes de qualquer gasto ou decisão maior — é um momento de cuidar do que já foi conquistado e evitar riscos desnecessários, mas com boas perspectivas de prosperidade para quem age com paciência.",
+// Para cada tema, várias variações de fechamento — cada uma referenciando uma das
+// cartas sorteadas, para reduzir bastante a repetição entre tiragens diferentes.
+type TemplateTema = (carta: CartaCigana) => string;
+
+const templatesPorTema: Record<Tema, TemplateTema[]> = {
+  "Amor": [
+    (c) => `No campo do amor, a presença de ${c.nome} reforça esse recado: olhe com sinceridade para o que sente e para o que recebe de volta, sem se enganar, mas também sem fechar o coração antes da hora.`,
+    (c) => `Para o amor, ${c.nome} mostra que vale a pena arriscar um pouco mais a sinceridade nos seus vínculos, mesmo que isso signifique se expor.`,
+    (c) => `No amor, ${c.nome} pede paciência: alguns sentimentos ainda estão amadurecendo, e forçar o tempo só atrapalha o que já está a caminho.`,
+  ],
+  "Espiritualidade": [
+    (c) => `No campo espiritual, ${c.nome} é um convite para fortalecer sua fé, manter a proteção em dia e escutar com mais atenção os sinais que já vêm chegando.`,
+    (c) => `Espiritualmente, ${c.nome} mostra que este é um bom momento para renovar suas práticas de fé e se reconectar com o que dá sentido ao seu caminho.`,
+    (c) => `Na espiritualidade, ${c.nome} aponta que a proteção está presente, mas pede constância da sua parte — a fé se fortalece com prática, não só com pedido.`,
+  ],
+  "Família": [
+    (c) => `No campo da família, ${c.nome} fala de laços que precisam de cuidado, conversas que estão pendentes e da importância de manter a casa em harmonia.`,
+    (c) => `Para a família, ${c.nome} sugere que um gesto simples de aproximação pode resolver mais do que muitas palavras.`,
+    (c) => `Na família, ${c.nome} pede atenção a algo que está sendo evitado — encarar de frente tende a aliviar o ambiente em casa.`,
+  ],
+  "Saúde": [
+    (c) => `No campo da saúde, ${c.nome} reforça a importância de cuidar do corpo com a mesma atenção que se dedica às questões externas — descansar também é parte do caminho.`,
+    (c) => `Para a saúde, ${c.nome} indica que pequenos ajustes na rotina, feitos agora, evitam desgastes maiores mais à frente.`,
+    (c) => `Na saúde, ${c.nome} pede que você preste atenção aos sinais do corpo, sem deixar o cansaço se acumular em silêncio.`,
+  ],
+  "Justiça": [
+    (c) => `No campo da justiça, ${c.nome} indica que a verdade tende a se impor, mas pede paciência com os prazos e cautela redobrada com documentos e palavras.`,
+    (c) => `Para a justiça, ${c.nome} mostra que agir com transparência agora evita complicações desnecessárias mais adiante.`,
+    (c) => `Na justiça, ${c.nome} pede cautela: revise bem o que for assinar ou prometer antes de seguir adiante.`,
+  ],
+  "Área Profissional": [
+    (c) => `No campo profissional, ${c.nome} mostra que esforço e paciência vão se conectar em breve com uma virada — não é hora de desistir, mas de ajustar a rota.`,
+    (c) => `Na área profissional, ${c.nome} indica que uma oportunidade pode surgir de onde você menos espera — vale manter os olhos abertos.`,
+    (c) => `No trabalho, ${c.nome} pede organização: colocar as prioridades em ordem agora facilita o próximo passo.`,
+  ],
+  "Financeiro": [
+    (c) => `No campo financeiro, ${c.nome} pede organização e cautela antes de qualquer gasto ou decisão maior — é um momento de cuidar do que já foi conquistado.`,
+    (c) => `Para as finanças, ${c.nome} mostra boas perspectivas de prosperidade para quem age com paciência e evita riscos desnecessários agora.`,
+    (c) => `No dinheiro, ${c.nome} indica que rever gastos e organizar as contas hoje evita apertos mais à frente.`,
+  ],
 };
+
+function fecharTema(tema: Tema, cartas: CartaCigana[]): string {
+  const templates = templatesPorTema[tema];
+  const template = templates[Math.floor(Math.random() * templates.length)];
+  const cartaRef = cartas[Math.floor(Math.random() * cartas.length)];
+  return template(cartaRef);
+}
 
 // Monta o texto final da leitura a partir das 3 cartas sorteadas e dos temas escolhidos
 export interface LeituraResultado {
@@ -79,7 +118,7 @@ export function montarLeitura(escolhidas: CartaCigana[], temasEscolhidos: Tema[]
     return {
       mostrarIntroducao: true,
       introducao,
-      blocosPorTema: temas.map((tema) => ({ tema, texto: fechamentoPorTema[tema] })),
+      blocosPorTema: temas.map((tema) => ({ tema, texto: fecharTema(tema, escolhidas) })),
     };
   }
 
@@ -87,6 +126,6 @@ export function montarLeitura(escolhidas: CartaCigana[], temasEscolhidos: Tema[]
   return {
     mostrarIntroducao: false,
     introducao,
-    blocosPorTema: temasEscolhidos.map((tema) => ({ tema, texto: fechamentoPorTema[tema] })),
+    blocosPorTema: temasEscolhidos.map((tema) => ({ tema, texto: fecharTema(tema, escolhidas) })),
   };
 }
