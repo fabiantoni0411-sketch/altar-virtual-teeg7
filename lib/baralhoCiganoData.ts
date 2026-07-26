@@ -61,9 +61,9 @@ export const fechamentoPorTema: Record<Tema, string> = {
 
 // Monta o texto final da leitura a partir das 3 cartas sorteadas e dos temas escolhidos
 export interface LeituraResultado {
+  mostrarIntroducao: boolean;
   introducao: string;
   blocosPorTema: { tema: Tema; texto: string }[];
-  textoResumoGeral?: string;
 }
 
 export function montarLeitura(escolhidas: CartaCigana[], temasEscolhidos: Tema[], resumoGeral: boolean): LeituraResultado {
@@ -74,13 +74,18 @@ export function montarLeitura(escolhidas: CartaCigana[], temasEscolhidos: Tema[]
   introducao += `Lidas em sequência, essas três cartas mostram um fio condutor: o que vem de ${a.nome.toLowerCase()} encontra eco em ${b.nome.toLowerCase()} e ganha um desfecho através de ${c.nome.toLowerCase()}, formando um recado só, não três avisos soltos.`;
 
   if (resumoGeral) {
+    // Resumo Geral: mostra a introdução das cartas + TODAS as áreas, separadas
     return {
+      mostrarIntroducao: true,
       introducao,
-      blocosPorTema: [],
-      textoResumoGeral: "Olhando de forma geral para sua vida agora, esse é um momento de prestar atenção aos detalhes antes de tomar decisões maiores, e de confiar no tempo certo de cada coisa.",
+      blocosPorTema: temas.map((tema) => ({ tema, texto: fechamentoPorTema[tema] })),
     };
   }
 
-  const blocosPorTema = temasEscolhidos.map((tema) => ({ tema, texto: fechamentoPorTema[tema] }));
-  return { introducao, blocosPorTema };
+  // Tema(s) específico(s): sem a introdução geral, só a(s) área(s) escolhida(s)
+  return {
+    mostrarIntroducao: false,
+    introducao,
+    blocosPorTema: temasEscolhidos.map((tema) => ({ tema, texto: fechamentoPorTema[tema] })),
+  };
 }
