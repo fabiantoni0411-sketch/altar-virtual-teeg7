@@ -22,6 +22,7 @@ export default function BaralhoCigano() {
   const [resumoGeral, setResumoGeral] = useState(false);
   const [revelado, setRevelado] = useState(false);
   const [leitura, setLeitura] = useState<LeituraResultado | null>(null);
+  const [embaralhando, setEmbaralhando] = useState(false);
 
   const cartasEscolhidas = useMemo(
     () => escolhidas.map((id) => cartas.find((c) => c.id === id)!) as CartaCigana[],
@@ -34,10 +35,15 @@ export default function BaralhoCigano() {
   }
 
   function embaralharNovamente() {
-    setOrdem(embaralhar(cartas.map((c) => c.id)));
     setEscolhidas([]);
     setRevelado(false);
     setLeitura(null);
+    setEmbaralhando(true); // fase 1: as cartas se juntam rapidamente no centro
+
+    setTimeout(() => {
+      setOrdem(embaralhar(cartas.map((c) => c.id))); // nova ordem sorteada
+      setEmbaralhando(false); // fase 2: voltam ao leque em cascata (efeito vem do transition-delay)
+    }, 320);
   }
 
   function alternarTema(tema: Tema) {
@@ -106,12 +112,13 @@ export default function BaralhoCigano() {
           return (
             <div
               key={id}
-              className={`bc-mini ${escolhida ? "escolhida" : ""}`}
+              className={`bc-mini ${escolhida ? "escolhida" : ""} ${embaralhando ? "reunindo" : ""}`}
               style={{
                 left: `calc(50% + ${x}px)`,
                 top: `${y}px`,
                 zIndex: i,
                 transform: `rotate(${angulo}deg)`,
+                transitionDelay: `${i * 10}ms`,
               }}
               onClick={() => escolherCarta(id)}
             />
