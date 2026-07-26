@@ -47,7 +47,7 @@ export const cartas: CartaCigana[] = [
   { id: 36, nome: "A Cruz", arquivo: "/36-cruz.jpg", significado: "fala de um fardo, uma provação ou também de fé e resignação diante do que não se pode mudar" },
 ];
 
-export const temas = ["Amor", "Espiritualidade", "Família", "Saúde", "Justiça", "Área Profissional"] as const;
+export const temas = ["Amor", "Espiritualidade", "Família", "Saúde", "Justiça", "Área Profissional", "Financeiro"] as const;
 export type Tema = typeof temas[number];
 
 export const fechamentoPorTema: Record<Tema, string> = {
@@ -57,6 +57,7 @@ export const fechamentoPorTema: Record<Tema, string> = {
   "Saúde": "No campo da saúde, essa mensagem reforça a importância de cuidar do corpo com a mesma atenção que se dedica às questões externas — descansar também é parte do caminho.",
   "Justiça": "No campo da justiça, a leitura indica que a verdade tende a se impor, mas pede paciência com os prazos e cautela redobrada com documentos e palavras.",
   "Área Profissional": "No campo profissional, o recado mostra que esforço e paciência vão se conectar em breve com uma virada — não é hora de desistir, mas de ajustar a rota.",
+  "Financeiro": "No campo financeiro, a leitura pede organização e cautela antes de qualquer gasto ou decisão maior — é um momento de cuidar do que já foi conquistado e evitar riscos desnecessários, mas com boas perspectivas de prosperidade para quem age com paciência.",
 };
 
 // Monta o texto final da leitura a partir das 3 cartas sorteadas e dos temas escolhidos
