@@ -59,7 +59,14 @@
   position:absolute; top:0; left:50%; width:64px; height:96px; margin-left:-32px;
   border-radius:7px; background-image:url('/verso-rosa.jpg'); background-size:cover; background-position:center;
   border:1px solid var(--gold-soft); box-shadow:0 6px 14px rgba(0,0,0,.5);
-  transform-origin:center center; cursor:pointer; transition:transform .3s ease, opacity .3s ease, filter .3s ease;
+  transform-origin:center center; cursor:pointer;
+  transition: left .32s ease, top .32s ease, transform .32s ease, opacity .25s ease, filter .25s ease;
+}
+.bc-mini.reunindo{
+  left:50% !important; top:42% !important;
+  transform:scale(.5) rotate(0deg) !important;
+  opacity:.85; z-index:999 !important;
+  transition: left .28s ease, top .28s ease, transform .28s ease;
 }
 .bc-mini:hover{ filter:brightness(1.2); }
 .bc-mini.escolhida{ opacity:0; pointer-events:none; }
