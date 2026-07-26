@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { cartas, temas, montarLeitura, CartaCigana, Tema, LeituraResultado } from "@/lib/baralhoCiganoData";
@@ -62,6 +62,15 @@ export default function BaralhoCigano() {
     setRevelado(true);
     setLeitura(montarLeitura(cartasEscolhidas, temasEscolhidos, resumoGeral));
   }
+
+  // Se as cartas já estão reveladas, trocar de tema atualiza a mensagem na hora,
+  // sem precisar clicar em "Revelar Mensagem" de novo.
+  useEffect(() => {
+    if (revelado && cartasEscolhidas.length === 3) {
+      setLeitura(montarLeitura(cartasEscolhidas, temasEscolhidos, resumoGeral));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [temasEscolhidos, resumoGeral]);
 
   const totalArco = 150;
   const raio = 340;
