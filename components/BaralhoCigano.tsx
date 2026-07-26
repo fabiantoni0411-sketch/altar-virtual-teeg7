@@ -142,7 +142,11 @@ export default function BaralhoCigano() {
         })}
       </div>
 
-      <button className="bc-revelar" disabled={escolhidas.length < 3} onClick={revelarMensagem}>
+      <button
+        className="bc-revelar"
+        disabled={escolhidas.length < 3 || (!resumoGeral && temasEscolhidos.length === 0)}
+        onClick={revelarMensagem}
+      >
         Revelar Mensagem
       </button>
 
@@ -152,9 +156,8 @@ export default function BaralhoCigano() {
           <span className="bc-tema-tag">
             {resumoGeral ? "Leitura geral" : temasEscolhidos.length ? `Tema: ${temasEscolhidos.join(", ")}` : ""}
           </span>
-          <p>{leitura.introducao}</p>
 
-          {leitura.textoResumoGeral && <p>{leitura.textoResumoGeral}</p>}
+          {leitura.mostrarIntroducao && <p>{leitura.introducao}</p>}
 
           {leitura.blocosPorTema.map((bloco) => (
             <p key={bloco.tema} className="bc-bloco-tema">
