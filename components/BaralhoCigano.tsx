@@ -38,12 +38,12 @@ export default function BaralhoCigano() {
     setEscolhidas([]);
     setRevelado(false);
     setLeitura(null);
-    setEmbaralhando(true); // fase 1: as cartas se juntam rapidamente no centro
+    setEmbaralhando(true); // fase 1: as cartas se juntam rapidamente no centro, tremendo
 
     setTimeout(() => {
       setOrdem(embaralhar(cartas.map((c) => c.id))); // nova ordem sorteada
-      setEmbaralhando(false); // fase 2: voltam ao leque em cascata (efeito vem do transition-delay)
-    }, 320);
+      setEmbaralhando(false); // fase 2: voltam ao leque em cascata rápida
+    }, 220);
   }
 
   function alternarTema(tema: Tema) {
@@ -73,7 +73,7 @@ export default function BaralhoCigano() {
   }, [temasEscolhidos, resumoGeral]);
 
   const totalArco = 150;
-  const raio = 340;
+  const raio = 155;
 
   return (
     <section className="baralho-cigano">
@@ -127,7 +127,7 @@ export default function BaralhoCigano() {
                 top: `${y}px`,
                 zIndex: i,
                 transform: `rotate(${angulo}deg)`,
-                transitionDelay: `${i * 10}ms`,
+                transitionDelay: `${i * 5}ms`,
               }}
               onClick={() => escolherCarta(id)}
             />
@@ -165,6 +165,10 @@ export default function BaralhoCigano() {
       >
         Revelar Mensagem
       </button>
+
+      {escolhidas.length === 3 && !resumoGeral && temasEscolhidos.length === 0 && (
+        <p className="bc-aviso-tema">Escolha ao menos um tema (ou o Resumo Geral) acima para revelar.</p>
+      )}
 
       {revelado && leitura && (
         <div className="bc-leitura">
