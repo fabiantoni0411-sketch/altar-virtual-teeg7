@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { CANDLES, getCandleById } from "@/lib/candles-data";
 import { validateName } from "@/lib/content-filter";
 
@@ -70,6 +71,12 @@ export default function CandleForm() {
           Sua vela foi enviada para análise e, após aprovação, ficará visível no
           Altar Virtual do TEEG7. Que a luz divina ilumine seus caminhos. Axé!
         </p>
+        <Link
+          href="/"
+          className="inline-block mt-6 text-sm text-altar-gold/90 hover:text-altar-gold underline underline-offset-4"
+        >
+          ← Voltar para o Altar Virtual
+        </Link>
       </div>
     );
   }
