@@ -10,15 +10,10 @@ export default async function HomePage() {
   const supabase = await supabaseServer();
 
   const { data: content } = await supabase.from("site_content").select("*").single();
-
-  const seteDiasAtras = new Date();
-  seteDiasAtras.setDate(seteDiasAtras.getDate() - 7);
-
   const { data: candles } = await supabase
     .from("candles")
     .select("nome, cidade, estado, cor, created_at, pedido")
     .eq("status", "aprovada")
-    .gte("created_at", seteDiasAtras.toISOString())
     .order("created_at", { ascending: false })
     .limit(24);
 
@@ -38,6 +33,16 @@ export default async function HomePage() {
         >
           🕯️ Acender uma vela
         </Link>
+
+        <div>
+          <Link
+            href="/baralho-cigano"
+            className="inline-block rounded-xl text-altar-navy font-semibold px-8 py-3 shadow-glow"
+            style={{ background: "linear-gradient(90deg, #a8347a, #d9ae4a)" }}
+          >
+            ✦ Mensagem do Baralho Cigano
+          </Link>
+        </div>
       </section>
 
       <section className="max-w-2xl mx-auto px-6 mt-12">
