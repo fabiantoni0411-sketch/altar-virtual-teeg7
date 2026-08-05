@@ -10,10 +10,15 @@ export default async function HomePage() {
   const supabase = await supabaseServer();
 
   const { data: content } = await supabase.from("site_content").select("*").single();
+
+  const seteDiasAtras = new Date();
+  seteDiasAtras.setDate(seteDiasAtras.getDate() - 7);
+
   const { data: candles } = await supabase
     .from("candles")
     .select("nome, cidade, estado, cor, created_at, pedido")
     .eq("status", "aprovada")
+    .gte("created_at", seteDiasAtras.toISOString())
     .order("created_at", { ascending: false })
     .limit(24);
 
