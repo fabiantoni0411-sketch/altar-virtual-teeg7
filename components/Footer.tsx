@@ -77,7 +77,7 @@ export default function Footer() {
           "Axé, Luz e Paz para todos os irmãos e irmãs."
         </p>
 
-        <p className="pt-4 text-altar-mist/50 text-xs">Desenvolvido por Fabi Antonio</p>
+        <p className="pt-4 text-altar-mist/50 text-xs">Desenvolvido por Fabi Bassitii</p>
       </div>
 
       {showLogin && (
