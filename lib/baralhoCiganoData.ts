@@ -1,7 +1,6 @@
 // Dados do Baralho Cigano — nomes, arquivos de imagem e significados de cada carta.
-// Cada carta tem um "significado" geral (usado na introdução) e um ângulo de
-// interpretação específico para cada um dos 7 temas (usado na mensagem final).
-// Se quiser reescrever algum texto, é só editar aqui.
+// Cada carta tem um "significado" geral e um ângulo de interpretação específico
+// para cada um dos 7 temas. A leitura final junta as 3 cartas num texto único.
 
 export interface CartaCigana {
   id: number;
@@ -92,16 +91,125 @@ export const angulosPorCarta: Record<number, Record<Tema, string>> = {
   36: { "Amor": "um momento de provação no relacionamento pede fé e paciência", "Espiritualidade": "a fé é o que sustenta você nessa fase mais difícil", "Família": "um fardo familiar pede resignação e força para ser superado", "Saúde": "um momento difícil de saúde pede fé e cuidado redobrado", "Justiça": "uma provação nesse processo pede paciência e resignação", "Área Profissional": "um momento difícil no trabalho pede perseverança e fé", "Financeiro": "um momento financeiro difícil pede paciência e fé para ser superado" },
 };
 
-// Monta o texto de um tema combinando o ângulo das 3 cartas sorteadas dentro daquele tema
-function textoDoTema(tema: Tema, cartasEscolhidas: CartaCigana[]): string {
-  const frases = cartasEscolhidas.map((c) => {
-    const angulo = angulosPorCarta[c.id][tema];
-    return `${c.nome} mostra que ${angulo}`;
-  });
-  return frases.join(". ") + ".";
+// ---------------------------------------------------------------------------
+// LEITURA UNIFICADA DAS 3 CARTAS
+// As três cartas viram UM texto só: sem citar "a carta tal representa...".
+// O tom de cada carta (favorável, neutra ou de atenção) define como as ideias
+// se conectam, e o conjunto das três define o fechamento de cada tema.
+// ---------------------------------------------------------------------------
+
+const cartasFavoraveis = new Set([1, 2, 4, 5, 9, 13, 15, 16, 18, 20, 24, 25, 30, 31, 33, 34, 35]);
+const cartasDeAtencao = new Set([6, 7, 8, 10, 11, 14, 21, 23, 36]);
+
+function polaridade(id: number): number {
+  if (cartasFavoraveis.has(id)) return 1;
+  if (cartasDeAtencao.has(id)) return -1;
+  return 0;
 }
 
-// Monta o texto final da leitura a partir das 3 cartas sorteadas e dos temas escolhidos
+const campoDoTema: Record<Tema, string> = {
+  "Amor": "o amor",
+  "Espiritualidade": "a espiritualidade",
+  "Família": "a família",
+  "Saúde": "a saúde",
+  "Justiça": "a justiça",
+  "Área Profissional": "a vida profissional",
+  "Financeiro": "a vida financeira",
+};
+
+function maiuscula(texto: string): string {
+  return texto.charAt(0).toUpperCase() + texto.slice(1);
+}
+
+function escolher(opcoes: string[], semente: number): string {
+  return opcoes[Math.abs(semente) % opcoes.length];
+}
+
+// Conector da 2ª ideia (depende do tom da 1ª e da 2ª cartas)
+function conectorSegunda(pA: number, pB: number, semente: number): string {
+  if (pB < 0) {
+    return escolher(["Mas há um ponto a considerar: ", "Só que existe uma sombra no caminho: ", "Porém, vale cuidado: "], semente);
+  }
+  if (pB > 0 && pA > 0) {
+    return escolher(["Além disso, ", "E não para por aí: ", "Somando-se a isso, "], semente);
+  }
+  if (pB > 0) {
+    return escolher(["Por outro lado, ", "Em contrapartida, ", "Ao mesmo tempo, "], semente);
+  }
+  return escolher(["Somando a isso, ", "Ao mesmo tempo, ", "Em paralelo, "], semente);
+}
+
+// Conector da 3ª ideia (desfecho da tiragem)
+function conectorTerceira(pC: number, semente: number): string {
+  if (pC < 0) {
+    return escolher(["E, para fechar, vale atenção: ", "No desfecho, porém, há um cuidado: ", "Por fim, fique de olho: "], semente);
+  }
+  if (pC > 0) {
+    return escolher(["E, no desfecho, ", "Por fim, ", "E o fechamento é favorável: "], semente);
+  }
+  return escolher(["Por fim, ", "E, fechando o quadro, ", "Para completar, "], semente);
+}
+
+type Tom = "favoravel" | "inclinaFavoravel" | "equilibrado" | "inclinaAtencao" | "atencao";
+
+function tomDoConjunto(escolhidas: CartaCigana[]): Tom {
+  const soma = escolhidas.reduce((acc, c) => acc + polaridade(c.id), 0);
+  if (soma >= 2) return "favoravel";
+  if (soma === 1) return "inclinaFavoravel";
+  if (soma === 0) return "equilibrado";
+  if (soma === -1) return "inclinaAtencao";
+  return "atencao";
+}
+
+function fechamentoDoTema(tema: Tema, tom: Tom): string {
+  const campo = campoDoTema[tema];
+  switch (tom) {
+    case "favoravel":
+      return `Para ${campo}, o recado final é de confiança: vale aproveitar o que se abre agora.`;
+    case "inclinaFavoravel":
+      return `Para ${campo}, o saldo é positivo, desde que você mantenha os olhos abertos aos detalhes.`;
+    case "equilibrado":
+      return `Para ${campo}, o resultado depende das suas escolhas: há luz e atenção caminhando juntas.`;
+    case "inclinaAtencao":
+      return `Para ${campo}, o momento pede calma e cuidado, mas o caminho continua aberto.`;
+    default:
+      return `Para ${campo}, a leitura pede cautela e paciência; atravessado esse momento, o cenário tende a se acalmar.`;
+  }
+}
+
+function introducaoDoTom(tom: Tom): string {
+  switch (tom) {
+    case "favoravel":
+      return "O conjunto é de abertura: há apoio, movimento e boas notícias se formando, e o que parecia parado começa a andar.";
+    case "inclinaFavoravel":
+      return "O conjunto aponta para um caminho favorável, com um ou outro ponto que pede cuidado para que tudo flua melhor.";
+    case "equilibrado":
+      return "O conjunto mostra um momento de equilíbrio: há luz e há pontos de atenção, e são as suas escolhas de agora que definem o rumo.";
+    case "inclinaAtencao":
+      return "O conjunto pede atenção e paciência: há desafios no caminho, mas nada que a calma e o discernimento não consigam contornar.";
+    default:
+      return "O conjunto fala de um momento de prova: o ritmo pede cautela, mas essas cartas avisam para que você se prepare, e não para que você tema.";
+  }
+}
+
+// Texto único de um tema, costurando as 3 cartas na ordem em que saíram
+function textoDoTema(tema: Tema, escolhidas: CartaCigana[]): string {
+  const [a, b, c] = escolhidas;
+  const semente = a.id * 7 + b.id * 3 + c.id + temas.indexOf(tema);
+
+  const ideiaA = angulosPorCarta[a.id][tema];
+  const ideiaB = angulosPorCarta[b.id][tema];
+  const ideiaC = angulosPorCarta[c.id][tema];
+
+  const primeira = `${maiuscula(ideiaA)}.`;
+  const segunda = `${conectorSegunda(polaridade(a.id), polaridade(b.id), semente)}${ideiaB}.`;
+  const terceira = `${conectorTerceira(polaridade(c.id), semente + 1)}${ideiaC}.`;
+  const fechamento = fechamentoDoTema(tema, tomDoConjunto(escolhidas));
+
+  return `${primeira} ${segunda} ${terceira} ${fechamento}`;
+}
+
+// Resultado final da leitura
 export interface LeituraResultado {
   mostrarIntroducao: boolean;
   introducao: string;
@@ -110,13 +218,11 @@ export interface LeituraResultado {
 
 export function montarLeitura(escolhidas: CartaCigana[], temasEscolhidos: Tema[], resumoGeral: boolean): LeituraResultado {
   const [a, b, c] = escolhidas;
-  let introducao = `Abrindo com ${a.nome}, ${a.significado}. `;
-  introducao += `Em seguida, ${b.nome} entra na leitura e ${b.significado}. `;
-  introducao += `E a tiragem se fecha com ${c.nome}, que ${c.significado}. `;
-  introducao += `Lidas em sequência, essas três cartas mostram um fio condutor: o que vem de ${a.nome.toLowerCase()} encontra eco em ${b.nome.toLowerCase()} e ganha um desfecho através de ${c.nome.toLowerCase()}, formando um recado só, não três avisos soltos.`;
+  const tom = tomDoConjunto(escolhidas);
+  const introducao = `${a.nome}, ${b.nome} e ${c.nome} formam uma leitura única: as três cartas se completam e contam uma só história. ${introducaoDoTom(tom)}`;
 
   if (resumoGeral) {
-    // Resumo Geral: mostra a introdução das cartas + TODAS as áreas, separadas
+    // Resumo Geral: introdução + todas as áreas
     return {
       mostrarIntroducao: true,
       introducao,
@@ -124,7 +230,7 @@ export function montarLeitura(escolhidas: CartaCigana[], temasEscolhidos: Tema[]
     };
   }
 
-  // Tema(s) específico(s): sem a introdução geral, só a(s) área(s) escolhida(s)
+  // Tema(s) específico(s): só a(s) área(s) escolhida(s)
   return {
     mostrarIntroducao: false,
     introducao,
