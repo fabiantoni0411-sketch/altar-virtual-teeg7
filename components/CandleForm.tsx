@@ -68,8 +68,7 @@ export default function CandleForm() {
         <p className="text-3xl mb-3">🕯️✨</p>
         <p className="font-display text-xl text-altar-gold mb-2">Sua vela foi enviada</p>
         <p className="text-altar-mist/90 text-sm">
-          Sua vela foi enviada para análise e, após aprovação, ficará visível no
-          Altar Virtual do TEEG7. Que a luz divina ilumine seus caminhos. Axé!
+          Sua vela foi acesa e já está visível no Altar Virtual do TEEG7. Que a luz divina ilumine seus caminhos. Axé!
         </p>
         <Link
           href="/"
