@@ -86,7 +86,9 @@ export async function POST(req: NextRequest) {
       orixa: candleDef.orixa,
       tipo_vela: candleDef.tipo,
       pedido,
-      status: "pendente",
+            status: "aprovada",
+      approved_at: new Date().toISOString(),
+      expires_at: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),,
       ip_address: ip,
     })
     .select()
